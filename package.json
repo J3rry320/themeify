@@ -12,6 +12,7 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "cli-color": "^2.0.4",
+    "color-convert": "^2.0.1",
     "commander": "^13.0.0",
     "figlet": "^1.8.0",
     "handlebars": "^4.7.8",

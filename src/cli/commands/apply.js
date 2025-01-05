@@ -1,7 +1,7 @@
 const { generateFiles } = require("../../core/generateFile");
 const { detectFramework } = require("../../core/detectFramework");
 const { startLoader, logSuccess, logError } = require("../../utils/logger");
-const { getThemeConfig } = require("../prompts");
+const { getThemeConfig } = require("../prompt");
 
 async function applyTheme(options) {
   const loader = startLoader("Detecting framework...");

@@ -23,10 +23,14 @@ program
   .option("--font <font>", "Font name")
   .action(applyTheme);
 
-program
-  .command("preview")
-  .description("Preview a theme before applying")
-  .action(preview);
+  program
+    .command("preview")
+    .description(
+      "Preview a theme using a specified palette (e.g., --paletteName)"
+    )
+    .option("--paletteName <name>", "The palette name to preview")
+    .action(preview);
+
 
 program
   .command("cleanup")

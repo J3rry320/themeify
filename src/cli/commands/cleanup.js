@@ -1,15 +1,29 @@
 const fs = require("fs");
 const path = require("path");
-const { logSuccess, logError } = require("../utils/logger");
+const { logInfo, logError, logSuccess } = require("../../utils/logger");
 
-function cleanupFiles(targetDir) {
+function cleanup({ directory }) {
   try {
-    const files = fs.readdirSync(targetDir);
-    files.forEach((file) => fs.unlinkSync(path.join(targetDir, file)));
-    logSuccess("Cleanup successful!");
+    if (!directory) {
+      throw new Error("Please specify a directory using --directory.");
+    }
+
+    const dirPath = path.resolve(process.cwd(), directory);
+    if (!fs.existsSync(dirPath)) {
+      throw new Error(`Directory does not exist: ${dirPath}`);
+    }
+
+    logInfo(`Cleaning up files in directory: ${dirPath}...`);
+    const files = fs.readdirSync(dirPath);
+
+    files.forEach((file) => {
+      fs.unlinkSync(path.join(dirPath, file));
+    });
+
+    logSuccess(`Cleanup completed for directory: ${dirPath}`);
   } catch (error) {
-    logError("Error during cleanup: " + error.message);
+    logError(`Error during cleanup: ${error.message}`);
   }
 }
 
-module.exports = { cleanupFiles };
+module.exports = cleanup;
