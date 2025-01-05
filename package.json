@@ -1,0 +1,21 @@
+{
+  "name": "theme-maker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "cli-color": "^2.0.4",
+    "commander": "^13.0.0",
+    "figlet": "^1.8.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^12.3.0",
+    "ora": "^8.1.1"
+  }
+}
