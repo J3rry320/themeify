@@ -42,4 +42,4 @@ function detectFramework() {
   }
 }
 
-module.exports = detectFramework;
+module.exports = { detectFramework };

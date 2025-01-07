@@ -1,12 +1,26 @@
 const figlet = require("figlet");
-const chalk = require("chalk");
+const cliColor = require("cli-color");
+const winston = require("winston");
 
-const art1 = chalk.cyan(figlet.textSync("ThemeMaker", { font: "Standard" }));
-const art2 = chalk.green(figlet.textSync("ThemeMaker", { font: "Slant" }));
-const art3 = chalk.magenta(figlet.textSync("ThemeMaker", { font: "Big" }));
-const art4 = chalk.yellow(figlet.textSync("ThemeMaker", { font: "Small" }));
-const art5 = chalk.red(figlet.textSync("ThemeMaker", { font: "Banner" }));
-const art6 = chalk.blue(figlet.textSync("ThemeMaker", { font: "Ghost" }));
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple()
+  ),
+  transports: [new winston.transports.Console()],
+});
+
+function generateAsciiArt(text, font, color) {
+  return cliColor[color](figlet.textSync(text, { font: font }));
+}
+
+const art1 = generateAsciiArt("ThemeMaker", "Standard", "cyan");
+const art2 = generateAsciiArt("ThemeMaker", "Slant", "green");
+const art3 = generateAsciiArt("ThemeMaker", "Big", "magenta");
+const art4 = generateAsciiArt("ThemeMaker", "Small", "yellow");
+const art5 = generateAsciiArt("ThemeMaker", "Banner", "red");
+const art6 = generateAsciiArt("ThemeMaker", "Ghost", "blue");
 
 const arts = [art1, art2, art3, art4, art5, art6];
 

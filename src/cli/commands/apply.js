@@ -4,23 +4,24 @@ const { startLoader, logSuccess, logError } = require("../../utils/logger");
 const { getThemeConfig } = require("../prompt");
 
 async function applyTheme(options) {
-  const loader = startLoader("Detecting framework...");
+  startLoader("Detecting framework...");
   try {
     const detectedFramework = detectFramework();
-    const framework = options.framework || detectedFramework;
     const config = await getThemeConfig();
-
+    const framework =
+      options.framework || config.framework || detectedFramework;
+    console.log(options);
     // Override config with CLI options if provided
     if (options.theme) config.theme = options.theme;
     if (options.palette) config.palette = options.palette;
     if (options.font) config.font = options.font;
 
-    loader.succeed("Framework detected: " + framework);
+    logSuccess("Framework detected: " + framework);
 
     const filePath = generateFiles(framework, config);
     logSuccess(`Theme applied successfully! Files generated at ${filePath}`);
   } catch (error) {
-    loader.fail("Error applying theme.");
+    logError("Error applying theme.");
     logError(error.message);
   }
 }

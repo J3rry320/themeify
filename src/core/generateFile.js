@@ -6,16 +6,23 @@ const fonts = require("../themes/fonts");
 const palettes = require("../themes/palettes");
 const themes = require("../themes/themes");
 
+function ensureDirectoryExistence(directoryPath) {
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath, { recursive: true });
+    logSuccess(`Directory created: ${directoryPath}`);
+  }
+}
+
 function generateFiles(framework, config) {
   try {
     logInfo(`Generating files for framework: ${framework}...`);
 
     const templatePath =
       framework.toLowerCase() === "css"
-        ? path.resolve(__dirname, "../themes/cssTheme.hbs")
+        ? path.resolve(__dirname, "../templates/cssTheme.hbs")
         : path.resolve(
             __dirname,
-            `../themes/${framework.toLowerCase()}Theme.hbs`
+            `../templates/${framework.toLowerCase()}Theme.hbs`
           );
 
     const outputPath =
@@ -26,6 +33,10 @@ function generateFiles(framework, config) {
             `./theme/${framework.toLowerCase()}Theme.js`
           );
 
+    // Ensure the required directories exist
+    ensureDirectoryExistence(path.resolve(process.cwd(), "./theme"));
+    ensureDirectoryExistence(path.resolve(process.cwd(), "./style"));
+
     logInfo(`Reading template from: ${templatePath}`);
     const template = fs.readFileSync(templatePath, "utf-8");
 
@@ -35,11 +46,13 @@ function generateFiles(framework, config) {
     logInfo(`Generating content and writing to: ${outputPath}`);
     let data;
     if (config.theme) {
-      if (!themes[config.theme]) {
+      const theme = themes[config.theme.split(" ")[0].toLowerCase()];
+      console.log({ theme }, config.theme);
+      if (!theme) {
         logError("Please provide a valid theme name");
         process.exit(1);
       }
-      data = { ...themes[config.theme] };
+      data = { ...theme };
     } else {
       let palette = palettes[config.palette];
       let font = fonts.find((ele) => ele === config.font);
@@ -52,11 +65,13 @@ function generateFiles(framework, config) {
         font,
       };
     }
-    console.log(data);
+    console.log({ data });
+
     const content = compiled(data);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, content);
 
+    logSuccess(`Files generated and saved to: ${outputPath}`);
     return outputPath;
   } catch (error) {
     logError(`Error generating files: ${error.message}`);

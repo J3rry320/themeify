@@ -1,21 +1,28 @@
-const ora = require("ora");
-const chalk = require("chalk");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple()
+  ),
+  transports: [new winston.transports.Console()],
+});
 
 function startLoader(message) {
-  const spinner = ora(message).start();
-  return spinner;
+  logger.info(`⏳ ${message}...`);
 }
 
 function logSuccess(message) {
-  console.log(chalk.green(`✔ ${message}`));
+  logger.info(`✔ ${message}`);
 }
 
 function logError(message) {
-  console.log(chalk.red(`✖ ${message}`));
+  logger.error(`✖ ${message}`);
 }
 
 function logInfo(message) {
-  console.log(chalk.blue(`ℹ ${message}`));
+  logger.info(`ℹ ${message}`);
 }
 
 module.exports = { startLoader, logSuccess, logError, logInfo };

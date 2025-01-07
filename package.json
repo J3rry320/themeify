@@ -1,22 +1,49 @@
 {
   "name": "theme-maker",
+  "description": "A CLI tool to generate and manage custom UI themes.",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "source": "bin/index",
+  "bin": {
+    "theme-maker": "./dist/index.js"
+  },
   "scripts": {
+    "start": "node bin/index.js",
+    "build": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Jerry Satpathy <rutuparna.satpathy01@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j3rry320/theme-maker"
+  },
+  "bugs": {
+    "url": "https://github.com/j3rry320/theme-maker/issues"
+  },
+  "homepage": "https://github.com/j3rry320/theme-maker#readme",
   "dependencies": {
     "chalk": "^5.4.1",
     "cli-color": "^2.0.4",
     "color-convert": "^2.0.1",
     "commander": "^13.0.0",
+    "enquirer": "^2.4.1",
     "figlet": "^1.8.0",
     "handlebars": "^4.7.8",
     "inquirer": "^12.3.0",
-    "ora": "^8.1.1"
-  }
+    "ora": "^8.1.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^12.0.2",
+    "terser-webpack-plugin": "^5.3.11",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "files": [
+    "dist/"
+  ]
 }

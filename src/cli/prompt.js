@@ -1,4 +1,5 @@
-const inquirer = require("inquirer");
+const { Select } = require("enquirer");
+
 const { logInfo, logSuccess } = require("../utils/logger");
 
 async function getThemeConfig() {
@@ -8,47 +9,48 @@ async function getThemeConfig() {
       "- If you select 'None,' you can customize your palette and font.\n"
   );
 
-  const answers = await inquirer.prompt([
-    {
-      type: "list",
-      name: "framework",
-      message: "Select your UI framework:",
-      choices: ["MUI", "Tailwind", "None"],
-      // "Bootstrap", "ShadCN",
-    },
-    {
-      type: "list",
-      name: "theme",
-      message: "Would you like to use a predefined theme?",
-      choices: [
-        { name: "Modern", value: "modern" },
-        { name: "Vibrant", value: "vibrant" },
-        { name: "None (Custom Configuration)", value: "none" },
-      ],
-    },
-  ]);
+  const frameworkPrompt = new Select({
+    name: "framework",
+    message: "Select your UI framework:",
+    choices: ["MUI", "Tailwind", "None"],
+    // 'Bootstrap', 'ShadCN',
+  });
+
+  const themePrompt = new Select({
+    name: "theme",
+    message: "Would you like to use a predefined theme?",
+    choices: [
+      { name: "Modern", value: "modern" },
+      { name: "Vibrant", value: "vibrant" },
+      { name: "None (Custom Configuration)", value: "none" },
+    ],
+  });
+
+  const answers = {};
+  answers.framework = await frameworkPrompt.run();
+  answers.theme = await themePrompt.run();
 
   if (answers.theme === "none") {
     console.log(
       "\nYou chose custom configuration. Let's pick your palette and font!\n"
     );
 
-    const customConfig = await inquirer.prompt([
-      {
-        type: "list",
-        name: "palette",
-        message: "Choose a color palette:",
-        choices: ["material", "pastel"],
-      },
-      {
-        type: "list",
-        name: "font",
-        message: "Choose a font:",
-        choices: ["Roboto", "Lato", "Montserrat", "Open Sans"],
-      },
-    ]);
+    const palettePrompt = new Select({
+      name: "palette",
+      message: "Choose a color palette:",
+      choices: ["material", "pastel"],
+    });
 
-    return { ...answers, ...customConfig };
+    const fontPrompt = new Select({
+      name: "font",
+      message: "Choose a font:",
+      choices: ["Roboto", "Lato", "Montserrat", "Open Sans"],
+    });
+
+    answers.palette = await palettePrompt.run();
+    answers.font = await fontPrompt.run();
+
+    return answers;
   }
 
   logSuccess(
