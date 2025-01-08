@@ -1,12 +1,12 @@
 {
-  "name": "theme-maker",
+  "name": "themeify",
   "description": "A CLI tool to generate and manage custom UI themes.",
   "version": "1.0.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "source": "bin/index",
   "bin": {
-    "theme-maker": "./dist/index.js"
+    "themeify": "./dist/index.js"
   },
   "scripts": {
     "start": "node bin/index.js",
@@ -14,17 +14,28 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "theme",
+    "CLI",
+    "React",
+    "Next.js",
+    "UI",
+    "custom themes",
+    "MUI",
+    "Tailwind",
+    "ShadCN",
+    "Bootstrap"
+  ],
   "author": "Jerry Satpathy <rutuparna.satpathy01@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/j3rry320/theme-maker"
+    "url": "https://github.com/J3rry320/themeify"
   },
   "bugs": {
-    "url": "https://github.com/j3rry320/theme-maker/issues"
+    "url": "https://github.com/J3rry320/themeify/issues"
   },
-  "homepage": "https://github.com/j3rry320/theme-maker#readme",
+  "homepage": "https://github.com/J3rry320/themeify#readme",
   "dependencies": {
     "chalk": "^5.4.1",
     "cli-color": "^2.0.4",
