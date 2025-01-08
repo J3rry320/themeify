@@ -5,7 +5,7 @@ const { applyTheme } = require("../src/cli/commands/apply");
 const { preview } = require("../src/cli/commands/preview");
 const { cleanup } = require("../src/cli/commands/cleanup");
 const displayAsciiArt = require("../src/cli/ascii");
-const { logInfo } = require("../src/utils/logger");
+
 const program = new Command();
 displayAsciiArt(); // Display ASCII art.
 

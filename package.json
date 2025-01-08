@@ -11,7 +11,8 @@
   "scripts": {
     "start": "node bin/index.js",
     "build": "webpack --config webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build"
   },
   "keywords": [],
   "author": "Jerry Satpathy <rutuparna.satpathy01@gmail.com>",
