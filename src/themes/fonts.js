@@ -1,1 +1,17 @@
-module.exports = ["Roboto", "Poppins", "Open Sans"];
+module.exports = [
+  "Roboto",
+  "Poppins",
+  "Open Sans",
+  "Lato",
+  "Montserrat",
+  "Raleway",
+  "Nunito",
+  "Merriweather",
+  "Playfair Display",
+  "Cabin",
+  "Source Sans Pro",
+  "Quicksand",
+  "Comfortaa",
+  "Josefin Sans",
+  "Oswald",
+];

@@ -4,14 +4,28 @@ const { logError } = require("../../utils/logger");
 const hexToXterm = require("../../utils/colour");
 const themes = require("../../themes/themes");
 
-function preview({ paletteName }) {
-  if (!paletteName) {
-    logError("Please specify a palette name using --paletteName.");
+function preview({ paletteName, themeName, list }) {
+  if (list) {
+    console.log(cliColor.magentaBright("Available palettes:"));
+    console.log(Object.keys(palettes).join(", "));
+    console.log("\n");
+    console.log(cliColor.redBright("Available themes:"));
+    console.log(Object.keys(themes).join(", "));
+    return;
+  }
+
+  if (!paletteName && !themeName) {
+    logError(
+      "Please specify a palette name using --paletteName or a theme name using --themeName."
+    );
     process.exit(1);
   }
-  const colors = palettes[paletteName] || themes[paletteName];
+
+  const colors = palettes[paletteName] || themes[themeName];
   if (!colors) {
-    logError("Invalid palette name.");
+    logError(
+      "Invalid palette or theme name. Please run theme-maker preview --list to see available palettes and themes."
+    );
     process.exit(1);
   }
 

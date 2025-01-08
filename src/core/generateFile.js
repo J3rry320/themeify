@@ -5,6 +5,8 @@ const { logInfo, logError, logSuccess } = require("../utils/logger");
 const fonts = require("../themes/fonts");
 const palettes = require("../themes/palettes");
 const themes = require("../themes/themes");
+const { toCamelCase } = require("../utils/common");
+const { noTheme } = require("../cli/prompt");
 
 function ensureDirectoryExistence(directoryPath) {
   if (!fs.existsSync(directoryPath)) {
@@ -19,17 +21,18 @@ function generateFiles(framework, config) {
 
     const templatePath =
       framework.toLowerCase() === "css"
-        ? path.resolve(__dirname, "../templates/cssTheme.hbs")
+        ? path.resolve(__dirname, "./templates/cssTheme.hbs")
         : path.resolve(
             __dirname,
-            `../templates/${framework.toLowerCase()}Theme.hbs`
+            `./templates/${framework.toLowerCase()}Theme.hbs`
           );
 
     const outputPath =
-      framework.toLowerCase() === "css"
-        ? path.resolve(process.cwd(), "./style/theme.css")
+      framework.toLowerCase() === "css" ||
+      framework.toLowerCase() === "bootstrap"
+        ? path.resolve(config.path || process.cwd(), "./style/theme.css")
         : path.resolve(
-            process.cwd(),
+            config.path || process.cwd(),
             `./theme/${framework.toLowerCase()}Theme.js`
           );
 
@@ -45,9 +48,9 @@ function generateFiles(framework, config) {
 
     logInfo(`Generating content and writing to: ${outputPath}`);
     let data;
-    if (config.theme) {
-      const theme = themes[config.theme.split(" ")[0].toLowerCase()];
-      console.log({ theme }, config.theme);
+    if (config.theme && config.theme !== noTheme) {
+      const theme = themes[toCamelCase(config.theme)];
+
       if (!theme) {
         logError("Please provide a valid theme name");
         process.exit(1);
@@ -55,9 +58,18 @@ function generateFiles(framework, config) {
       data = { ...theme };
     } else {
       let palette = palettes[config.palette];
-      let font = fonts.find((ele) => ele === config.font);
-      if (!palette || !font) {
-        logError("Please provide a valid palette name or font name");
+
+      let font = fonts.find((ele, index) => {
+        console.log(ele, config.font, index);
+        return ele === config.font;
+      });
+
+      if (!palette) {
+        logError("Please provide a valid palette name");
+        process.exit(1);
+      }
+      if (!font) {
+        logError("Please provide a valid font name");
         process.exit(1);
       }
       data = {
@@ -65,7 +77,6 @@ function generateFiles(framework, config) {
         font,
       };
     }
-    console.log({ data });
 
     const content = compiled(data);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });

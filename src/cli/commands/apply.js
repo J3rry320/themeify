@@ -8,15 +8,15 @@ async function applyTheme(options) {
   try {
     const detectedFramework = detectFramework();
     const config = await getThemeConfig();
+
     const framework =
       options.framework || config.framework || detectedFramework;
-    console.log(options);
+
     // Override config with CLI options if provided
     if (options.theme) config.theme = options.theme;
     if (options.palette) config.palette = options.palette;
     if (options.font) config.font = options.font;
-
-    logSuccess("Framework detected: " + framework);
+    if (options.path) config.path = options.path;
 
     const filePath = generateFiles(framework, config);
     logSuccess(`Theme applied successfully! Files generated at ${filePath}`);

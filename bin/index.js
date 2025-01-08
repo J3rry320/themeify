@@ -35,6 +35,8 @@ program
   )
   .allowUnknownOption(false)
   .option("-p, --paletteName <name>", "The palette name to preview")
+  .option("-t, --themeName <name>", "The theme name to preview")
+  .option("-l, --list", "List available palettes and themes")
   .action(preview);
 
 program

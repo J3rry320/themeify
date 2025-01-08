@@ -13,24 +13,12 @@ module.exports = {
     libraryTarget: "commonjs2", // Node.js module format
   },
   mode: "production", // Production mode for optimizations
-  externals: [
-    nodeExternals(),
-    ({ context, request }, callback) => {
-      // Exclude devDependencies explicitly
-      const devDependencies = JSON.parse(
-        fs.readFileSync("./package.json", "utf8")
-      ).devDependencies;
-      if (devDependencies && request && devDependencies[request]) {
-        return callback(null, `commonjs ${request}`);
-      }
-      callback();
-    },
-  ], // Exclude Node.js built-ins and dependencies
+  externals: [nodeExternals()], // Exclude Node.js built-ins and dependencies
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "src/templates", // Source folder for templates
+          from: "src/core/templates", // Source folder for templates
           to: "templates", // Destination folder in the dist directory
         },
       ],

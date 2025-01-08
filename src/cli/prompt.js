@@ -1,7 +1,10 @@
 const { Select } = require("enquirer");
-
 const { logInfo, logSuccess } = require("../utils/logger");
-
+const themes = require("../themes/themes");
+const fonts = require("../themes/fonts");
+const palettes = require("../themes/palettes");
+const { fromCamelCase } = require("../utils/common");
+const noTheme = "None (Custom Configuration)";
 async function getThemeConfig() {
   logInfo(
     "\nWelcome to the Theme Configurator!\n" +
@@ -12,17 +15,19 @@ async function getThemeConfig() {
   const frameworkPrompt = new Select({
     name: "framework",
     message: "Select your UI framework:",
-    choices: ["MUI", "Tailwind", "None"],
-    // 'Bootstrap', 'ShadCN',
+    choices: ["MUI", "Tailwind", "None", "ShadCN", "Bootstrap"],
   });
 
   const themePrompt = new Select({
     name: "theme",
     message: "Would you like to use a predefined theme?",
     choices: [
-      { name: "Modern", value: "modern" },
-      { name: "Vibrant", value: "vibrant" },
-      { name: "None (Custom Configuration)", value: "none" },
+      noTheme,
+      ...Object.keys(themes).map((theme) => ({
+        name: fromCamelCase(theme),
+        value: theme,
+        message: fromCamelCase(theme),
+      })),
     ],
   });
 
@@ -30,7 +35,7 @@ async function getThemeConfig() {
   answers.framework = await frameworkPrompt.run();
   answers.theme = await themePrompt.run();
 
-  if (answers.theme === "none") {
+  if (answers.theme === noTheme) {
     console.log(
       "\nYou chose custom configuration. Let's pick your palette and font!\n"
     );
@@ -38,13 +43,13 @@ async function getThemeConfig() {
     const palettePrompt = new Select({
       name: "palette",
       message: "Choose a color palette:",
-      choices: ["material", "pastel"],
+      choices: Object.keys(palettes),
     });
 
     const fontPrompt = new Select({
       name: "font",
       message: "Choose a font:",
-      choices: ["Roboto", "Lato", "Montserrat", "Open Sans"],
+      choices: [...fonts],
     });
 
     answers.palette = await palettePrompt.run();
@@ -60,4 +65,4 @@ async function getThemeConfig() {
   return answers; // Return the selected theme only
 }
 
-module.exports = { getThemeConfig };
+module.exports = { getThemeConfig, noTheme };
