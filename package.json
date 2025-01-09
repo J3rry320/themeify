@@ -1,7 +1,7 @@
 {
   "name": "themeify",
   "description": "A CLI tool to generate and manage custom UI themes.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "source": "bin/index",
@@ -37,15 +37,12 @@
   },
   "homepage": "https://github.com/J3rry320/themeify#readme",
   "dependencies": {
-    "chalk": "^5.4.1",
     "cli-color": "^2.0.4",
     "color-convert": "^2.0.1",
     "commander": "^13.0.0",
     "enquirer": "^2.4.1",
     "figlet": "^1.8.0",
     "handlebars": "^4.7.8",
-    "inquirer": "^12.3.0",
-    "ora": "^8.1.1",
     "winston": "^3.17.0"
   },
   "devDependencies": {
